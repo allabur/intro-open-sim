@@ -1,0 +1,519 @@
+%**************************************************************************
+%*
+%*  Paper: ``INSTRUCTIONS FOR AUTHORS OF LATEX DOCUMENTS''
+%*
+%*  Publication: 2025 Simulation Workshop Proceedings template 
+%*
+%*  Filename: sw25paper.tex
+%*
+%*  Date: June 15, 2022
+%*
+%*  Adapted from WSC Proceedings Author Kit
+%*
+%*  All files need the following
+\input{sw25style.tex}     % download from author kit.  Style files for SW formatting. Don't remove this line - required for generating the final paper!
+
+\documentclass{swpaperproc}
+\usepackage{latexsym}
+%\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+
+%
+%****************************************************************************
+% AUTHOR: You may want to use some of these packages. (Optional)
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{amsthm}
+%****************************************************************************
+
+
+
+%
+%****************************************************************************
+% AUTHOR: If you do not wish to use hyperlinks, then just comment
+% out the hyperref usepackage commands below.
+
+%% This version of the command is used if you use pdflatex. In this case you
+%% cannot use ps or eps files for graphics, but pdf, jpeg, png etc are fine.
+
+\usepackage[pdftex,colorlinks=true,urlcolor=blue,citecolor=black,anchorcolor=black,linkcolor=black]{hyperref}
+
+%% The next versions of the hyperref command are used if you adopt the
+%% outdated latex-dvips-ps2pdf route in generating your pdf file. In
+%% this case you can use ps or eps files for graphics, but not pdf, jpeg, png etc.
+%% However, the final pdf file should embed all fonts required which means that you have to use file
+%% formats which can embed fonts. Please note that the final PDF file will not be generated on your computer!
+%% If you are using WinEdt or PCTeX, then use the following. If you are using
+%% Y&Y TeX then replace "dvips" with "dvipsone"
+
+%%\usepackage[dvips,colorlinks=true,urlcolor=blue,citecolor=black,%
+%% anchorcolor=black,linkcolor=black]{hyperref}
+%****************************************************************************
+
+
+% for ORCID links
+\usepackage{orcidlink}
+
+
+
+%
+%****************************************************************************
+%*
+%* AUTHOR: YOUR CALL!  Document-specific macros can come here.
+%*
+%****************************************************************************
+
+% If you use theoremes
+\newtheoremstyle{sw}% hnamei
+{3pt}% hSpace abovei
+{3pt}% hSpace belowi
+{}% hBody fonti
+{}% hIndent amounti1
+{\bf}% hTheorem head fontbf
+{}% hPunctuation after theorem headi
+{.5em}% hSpace after theorem headi2
+{}% hTheorem head spec (can be left empty, meaning `normal')i
+
+\theoremstyle{sw}
+\newtheorem{theorem}{Theorem}
+\renewcommand{\thetheorem}{ \arabic{theorem}}
+\newtheorem{corollary}[theorem]{Corollary}
+\renewcommand{\thecorollary}{\arabic{corollary}}
+\newtheorem{definition}{Definition}
+\renewcommand{\thedefinition}{\arabic{definition}}
+
+
+% used for displaying code listings - ADDED BY AUTHOR
+\usepackage{xcolor}
+% used for code listings in tutorial
+\usepackage{listings}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+
+
+%#########################################################
+%*
+%*  The Document.
+%*
+\begin{document}
+
+%***************************************************************************
+
+
+% AUTHOR: AUTHOR NAMES GO HERE
+% FORMAT AUTHORS NAMES Like: Author1, Author2 and Author3 (last names)
+%
+%		You need to change the author listing below!
+%               Please list ALL authors using last name only, separate by a comma except
+%               for the last author, separate with "and"
+%
+\SWpagesetup{Monks, Harper, Heather, Mayne, and Mustafee}
+
+% AUTHOR: Enter the title, all letters in upper case
+\title{BUILDING HEALTHCARE DISCRETE-EVENT SIMULATION MODELS IN FREE AND OPEN SOURCE SOFTWARE: AN INTRODUCTORY TUTORIAL}
+
+% AUTHOR: Enter the authors of the article, see end of the example document for further examples
+\author{\textit{Thomas Monks}\\ [11pt]
+University of Exeter Medical School\\
+University of Exeter\\
+t.m.w.monks@exeter.ac.uk\\
+% Multiple authors are entered as follows.
+% You may also need to adjust the titlevbox size in the preamble - search for titlevboxsize
+\and
+\textit{Alison Harper}\\[11pt]
+University of Exeter Business School\\
+University of Exeter\\
+a.l.harper@exeter.ac.uk\\
+\and
+\textit{Amy Heather}\\ [11pt]
+University of Exeter Medical School\\
+University of Exeter\\
+a.heather2@exeter.ac.uk\\
+\and
+\textit{Andrew Mayne}\\ [11pt]
+Somerset NHS Foundation Trust\\
+Taunton\\
+andrew.mayne@somersetft.nhs.uk\\
+\and
+\textit{Navonil Mustafee}\\[11pt]
+University of Exeter Business School\\
+University of Exeter\\
+n.mustafee@exeter.ac.uk\\
+}
+
+\maketitle
+
+\section*{ABSTRACT}
+This tutorial aims to support modellers working in healthcare research or practice to build Discrete-Event Simulation models using the Free and Open Source Software \textit{SimPy} and Python. We provide a step-by-step guide to building a stylised urgent care telephone call centre model. Open materials that accompany the tutorial, including models and exercises, are available online and can be run without installing Python. As the materials are introductory, we also provide a ``next steps" section that describes simple, intermediate and advanced extensions to the work.
+
+%\section*{Keywords:} alpha, beta
+
+\section{INTRODUCTION}
+\label{sec:intro}
+
+Computer simulation has long been used as a tool for decision support in healthcare process design and optimisation, particularly in supporting healthcare decision makers to ask `what-if' we delivered care differently. Within the academic literature, Discrete-Event Simulation (DES) has become the predominant approach in healthcare modelling \shortcite{Salleh2017}. Recent reviews of the field demonstrate the wide-ranging applications of DES in health service delivery, for example, evaluating operational performance, improving patient flow, and optimizing service scheduling \shortcite{VazquezSerrano2021,Forbus2022,roy_2021}. DES models are valuable for decision making and are also valuable research artefacts in and of themselves: models are time-consuming to code and document in natural language; require significant clinical, methods, and informatics expertise; and depend on specialized software and logic. Given the cost that goes into a developing a coded model we argue that Free and Open Source Software (FOSS) and its value to Open Science \shortcite{starstowardspaper} has a substantive role to play in increasing the ability for models to be shared and reused across health services. 
+
+
+This paper provides an introduction to building DES models in FOSS. By the end of the tutorial readers will have the skills to code and extend a simple queuing model in Python and \textit{SimPy}. Before providing a step-by-step coding of a DES model in health, we introduce the concept of FOSS and what this means for computer simulation studies. We then briefly review the availability of FOSS DES packages;  the barriers associated with using them for research compared to modern Commercial Off-The-Shelf (COTS) simulation packages; and the other initiatives available that aim to increase FOSS uptake in research.
+
+\section{FREE AND OPEN SOURCE SOFTWARE}
+
+In data science, it is typical to use FOSS. For example, a data scientist working in Machine Learning is likely to use one of the popular Python libraries such as \textit{Scikit-Learn}, \textit{TensorFlow} or \textit{PyTorch}. The benefit of FOSS tools like these libraries are that they are openly licensed, and grant users four key freedoms:
+
+\begin{enumerate}
+\setcounter{enumi}{-1}
+    \item The freedom to run the program as you wish, for any purpose.
+    \item The freedom to study how the program works and modify it to suit your needs.
+    \item The freedom to redistribute copies to help your neighbours.
+    \item The freedom to distribute copies of your modified versions to others, allowing the whole community to benefit from your changes.
+\end{enumerate}
+
+Importantly, FOSS involves more than just open source code; it grants users the right to freely adapt and distribute copies of code. FOSS repositories often include a \textit{permissive} license like MIT or BSD-2 licenses.  These grant users the four freedoms (within commercial or non-commercial work), waive liability, and require crediting (citation) of the authors and their software in subsequent work.
+
+FOSS is increasingly used for computer simulation, such as DES \cite{monks_harper_2023}. This tutorial will focus on DES in Python, as it is the language we use in our practical health care simulation studies (e.g. \shortciteN{harper2023post}).
+
+\subsection{Python simulation tools}
+
+\citeN{dagkakis2016review} reviewed open source software for DES. They identified three FOSS Python packages: \textit{SimPy} \cite{simpy}, \textit{PySimulator} \cite{pfeiffer2012pysimulator} and \textit{ScipySim} \cite{mcinnes2011scipysim}. \textit{PySimulator} and \textit{ScipySim} were last updated in 2014 and 2010 respectively. \textit{SimPy} continues to be maintained (last updated November 2023) and has been used in several publications relevant to Operations Research \shortcite{bovim_simulating_2021,allen2020simulation}. 
+
+An updated list of Python DES packages now includes \textit{Salabim} \cite[MIT licensed, last updated September 2024]{van2018salabim}, \textit{Ciw} \cite[MIT licensed; last updated July 2024]{ciw}, and \textit{DE-Sim} \cite[MIT licensed, last updated November 2020]{goldberg2020sim}. \textit{Salabim} is a fork of SimPy and includes many simulation tools including automatic results collection and animation. \textit{Ciw} (the Welsh word for queue) was developed at Cardiff University and allows users to very quickly build complex multi-class queuing networks. An advanced feature of \textit{Ciw} is network deadlock detection (when the DES model enters a state where their is circular blocking of activities). \citeN{palmer2021implementing} provide two reproducible, open source implementations of Ciw for hybrid modelling (DES and System Dynamics), archived here \cite{palmer_geraint_2021_4601529}. \textit{DE-Sim} is an object-orientated (OO) framework for developing complex interacting DES models. The \textit{DE-Sim} authors argue that their OO framework is an advancement over \textit{SimPy}'s process-based worldview; although we note that \textit{SimPy} itself is highly flexible and can easily be used within an OO framework; for example see \shortcite{allen2020simulation}.
+
+
+\subsection{FOSS: Barriers and initiatives in DES}
+
+For modellers used to working with COTS simulation tools, the switch to FOSS and code based DES models can be daunting, costly, and challenging \cite{monks_harper_2023}. In other data science disciplines, such as machine learning, there is extensive community support, package documentation, applied examples, and dedicated code repositories available.  A critical mass of equivalent materials that lowers the cost of entry to FOSS DES is not yet available; although there are positive signs that support is beginning to build in simulation.  One example that supports FOSS for Agent Based Simulation is CoMSES.net\footnote{https://www.comses.net}. The initiative includes a model library linking to a large number of ABS models typically developed in NetLogo (and in October 2024, there were 1162 models: 61\% NetLogo and 7\% Python, etc).  Taking a different approach, the Sharing Tools and Artefacts for Reusable Simulations (STARS) framework for healthcare aims to support simulation researchers to share a version of their FOSS computer simulation model that is accessible and reusable by others \cite{starstowardspaper}. STARS provides details of both architecture to share models, and also published applied examples of Python models for others to adapt and reuse.  A software-specific initiative to highlight is the extensive and growing documentation to \textit{Ciw}\footnote{https://ciw.readthedocs.io} that now contains over 40 topics of support (as of October 2024). Another software-specific intiative provides a tutorial to use \textit{Streamlit} to build a browser based user-interface to Python models \cite{monks2023improving}. Lastly, in the UK, the NIHR Applied Research Collaboration South West Peninsula funds the Health Service Modelling Associates Programme\footnote{https://sites.google.com/nihr.ac.uk/hsma/hsma-resources} that has developed the ``Little Book of DES" (\url{https://des.hsma.co.uk/}). The book teaches simulation methods to the NHS using Python and \textit{Simpy}.
+
+
+\section{TUTORIAL OVERVIEW AND SETUP}
+
+\subsection{Aims}
+
+Given the relatively low use of FOSS in healthcare DES relative to COTS \cite{monks_harper_2023} and the documented barriers to entry for new users, we provide introductory tutorial materials to using Python for DES.  Our materials are a starting place for modellers looking to use Python in their DES studies. The materials are most suitable for individuals familiar with DES and coding.  Although we use Python, the introductory nature of the material should make them accessible to individuals with experience in different coding languages such as R, Julia, Java, C etc.  We also aim to make the example simulation code included in our tutorial simple for others to run and not require direct installation on their machine.  Given the introductory level of the tutorial, we make several simplifications to the code that would need to be addressed in real studies. We discuss these limitations in the final section and provide more advanced supplementary material illustrating how code could be improved.
+
+\subsection{Case study model}
+
+This case study uses a simple model of an urgent care telephone call centre, similar to the NHS 111 service in the UK \cite{NHS111}.  In this model, calls to the centre arrive randomly and operators handle them on a first-in-first-out basis. It does not include features like reneging, time dependency, shift work, or referrals and callbacks from medical or nursing practitioners.  The simulation time units are in minutes.  On average there are 100 new callers per hour (an inter-arrival time of 60.0 / 100 per minute). There are 13 caller operators available. Table \ref{tab: params} lists the statistical distributions and their parameters for the two activities in the model.  
+ 
+%include table of parameters
+\begin{table}[h]
+
+\centering
+\caption{Case study distributions.\label{tab: params}}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Activity}             & \textbf{Distribution}                          \\ \hline
+Inter-arrival time of callers & Exponential(mean = 60.0 / 100)                 \\ \hline
+Call triage by operator       & Triangular(low = 5.0, mode = 7.0, high = 10.0) \\ \hline
+\end{tabular}
+\end{table}
+
+
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.75\linewidth]{img/model_diagram.png}
+%     \caption{A process flow diagram of the case study urgent care call centre}
+%     \label{fig:processflow}
+% \end{figure}
+
+\subsection{Simulation software}
+
+This tutorial uses \textit{SimPy}: a popular FOSS DES package in Python with a process-based simulation worldview. To build a DES model in SimPy, users define Python generator functions (described in Section \ref{sec:processes}) and implement logic to request and release resources. Although \textit{SimPy} provides a full DES engine, it does not contain some of the additional features offered by COTS packages - for example, the user interfaces available with \textit{Arena} or \textit{Simul8}. However, \textit{SimPy} is a lightweight, flexible tool that can be integrated with the rest of the Python data science ecosystem.
+
+It has been used to model a wide variety of health condition pathways and healthcare operations. For example, COVID-19 \shortcite{simpy_covid_Anagnostou,simpy_covid_b}, renal services \shortcite{allen2020simulation}, stroke \shortcite{simpy_stroke,simpy_stroke_b}, heart failure \shortcite{simpy_heart_failure}, cancer care \shortcite{simpy_cancer}, end-of-life care \shortcite{chalk2021modelling}, and operating theatre management \shortcite{simpy_threatres,harper2023post}.
+
+\subsection{Availability of code and materials}
+
+In following sections, we provide step-by-step code to build the case study model, which is explained in detail. Whilst code listings are included in this paper, we strongly recommend using the interactive online materials, if you are interested in building the model. These materials are shared as notebooks using JupyterLite (v0.4) with the Xeus-Python kernel\footnote{https://xeus-python.readthedocs.io/en/latest}. The notebooks run in a pre-built Python environment in Jupyter-Lab, a popular notebook integrated development environment (IDE). JupyterLite is powered by WebAssembly, that allows readers to run and modify our Python code examples in their browser without having to install Python or \textit{SimPy} locally. Our interactive materials are available at this URL: \url{https://pythonhealthdatascience.github.io/intro-open-sim/}.  Alternatively the Jupyter notebooks can be downloaded directly from our GitHub repository \url{https://github.com/pythonhealthdatascience/intro-open-sim}. All code was developed in Python 3.11 and \textit{SimPy} 4.1.1 \cite{simpy}. 
+
+\subsection{Structure of tutorial}
+
+The tutorial is organised into the following sections:
+
+\begin{itemize}
+    \item \textbf{Section \ref{sec:variable}}: Introduces the basic tools to model variability in Python via the \textit{NumPy} library.
+    \item \textbf{Section \ref{sec:arrivals}}: Creates a basic \textit{SimPy} model to simulate the arrival process.
+    \item \textbf{Section \ref{sec:service}}: Adds queuing and service components to the model.
+    \item \textbf{Section \ref{sec:results}}: Adds basic result collection logic to the model.
+    \item \textbf{Section \ref{sec:discussion}}: Discusses where a reader should look next in their studies as well as highlighting some additional resources available in our online supplementary material.
+\end{itemize}
+
+
+\section{MODELLING VARIABILITY IN PYTHON}
+\label{sec:variable}
+
+In our call centre model, there is variation in (a) the time spent waiting for an operator, (b) the duration of the call, and (c) the time interval between successive callers. We model this using standard statistical distributions such as the uniform and exponential distributions. In Python, the \textit{NumPy} packages provide an efficient and user-friendly implementation of many statistical distributions. For example, in Listing \ref{code:numpy}, we draw one million samples from a \textbf{uniform} distribution.
+
+\begin{itemize}
+    \item \textbf{Line 1}: Imports the \textit{NumPy} package and aliases it as \textit{np}.
+    \item \textbf{Line 3}: Creates a Pseudo-Random Number Generator (PRNG; using the seed 42). This is a standard approach in \textit{NumPy} and makes use of the Permuted Congruential Generator 64-bit (PCG64; period = $2^{128}$; maximum number of streams = $2^{127}$).
+    \item \textbf{Line 4}: Uses the PRNG object to create one million samples and stores the results in a \textit{NumPy} array called samples.
+\end{itemize}
+
+Here we used the \textbf{uniform} method of the PRNG object, but we could have \textbf{similarly} used the exponential method.
+
+% read in numpy sampling example
+\lstinputlisting[language=python, caption=Efficient sampling using the \textit{NumPy} package, label=code:numpy]{code/sampling.py}
+
+
+\section{MODELLING AN ARRIVAL PROCESS}
+\label{sec:arrivals}
+
+In our initial \textit{SimPy} model, we have only included the arrivals of new callers (and excluded all queuing and service, which we add in Section \ref{sec:service}). The model code is provided in Listing \ref{code:arrivals} and explained in Sections \ref{subsec:env} to \ref{subsec:setup}.
+
+% read in first example used to break down components of a simpy model
+\lstinputlisting[language=python, caption=Modelling caller arrivals, label=code:arrivals]{code/simpy_intro.py}
+
+
+\subsection{The environment}
+\label{subsec:env}
+
+\textit{SimPy} processes execute in an \textbf{environment}.  In \textit{SimPy} models, the environment is the DES engine. Once an environment is created, users can access its attributes (such as the current simulation time) and methods (for example, creating a new process or running the model). In Listing \ref{code:arrivals}, Line 2 imports the \textit{SimPy} package. Using \textit{SimPy}, Line 19 creates an instance of an environment that is assigned to a variable called \verb|env|.
+
+
+\subsection{Delays}
+
+We can include \textbf{delays} or \textbf{activities} within a \textit{SimPy} process model.  For example, these might be the duration of a patient's stay on a ward or the duration of an operation.  In this case, we introduce a time between arrival events (inter-arrival time).  In Listing \ref{code:arrivals}, an inter-arrival time is sampled on Line 10. This is used on Line 11 to create a delay via the \verb|timeout| method of the environment object \verb|env|.  Model logic can access the simulation time before and after delays using \verb|env.now| (e.g. line 12).
+
+\subsection{Processes}
+\label{sec:processes}
+
+In \textit{SimPy}, the event-process mechanism is implemented using Python \textbf{generators}. A generator is a Python object that can return a sequence of values; for example, a sequence of times between patient arrivals. A simple way to visualise the arrival processes in \textit{SimPy} is as an infinite loop of delays, where each delay represents the time until the next arrival. Unlike a standard Python loop, a generator can be paused and resumed at later time, making it ideal for event-scheduling in \textit{SimPy}. 
+
+For each arrival process in our model, we create a new generator process. In Listing \ref{code:arrivals}, we have created a single arrival process (for callers) modelled by the generator function \verb|arrivals_generator| (Lines 5 to 12). The generator function contains an infinite loop (here implemented as a \textbf{while} loop). On each iteration, a new inter-arrival time is sampled from the Exponential distribution and an environment timeout (delay) of the same duration is yielded.  The keyword \textbf{yield} before the timeout is essential in Listing \ref{code:arrivals} Line 11: it is needed to tell the Python interpreter that the function is a Python generator. On line 11 \verb|yield| is combined with \verb|env.timeout()| to schedule the end of the event (the next caller arrival).
+
+\subsection{The setup script}
+\label{subsec:setup}
+
+In Listing \ref{code:arrivals}, Lines 16 to 26 setup and run the DES model. Two new concepts are introduced here. Line 22 configures \textit{SimPy} to execute \verb|arrivals_generator| as a \textbf{process}. Line 25 run the model until the simulation clock reaches time 100 (i.e. generate arrivals until that time). 
+
+\section{MODELLING A SERVICE PROCESS}
+\label{sec:service}
+
+We now expand the model to include a resource-bound service process: speaking with an operator.  To do this we will:
+
+\begin{enumerate}
+    \item Add a Python generator called \verb|service| which contains the queuing and call activity logic (Listing \ref{code:service}).
+    \item Create a \textit{SimPy} resource called \verb|operator| (Listing \ref{code:modarrivals})
+    \item Modify \verb|arrivals_generator| to create and schedule the \verb|service| process, which uses \verb|operator|, as each caller arrives to the model (Listing \ref{code:modarrivals}).
+\end{enumerate}
+
+\subsection{A service generator}
+
+Listing \ref{code:service} implements a simple \textit{SimPy} process model of calls queuing for service with one of a set of call operator resources. We have implemented the following logic in the \verb|service| process:
+
+\begin{enumerate}
+    \item A caller service process requests a call operator resource. If none are available, the caller process waits in a queue.
+    \item Once an operator resource becomes available, the call process is assigned and undergoes a phone triage (represented as a delay). The duration of this delay is sampled from a triangular distribution.
+    \item  After the call process is completed, the operator resource is released, and the caller process exits the model.
+\end{enumerate}
+
+% read in the example of a service process for the 
+\lstinputlisting[language=python, caption=Modelling caller queuing and service time, label=code:service]{code/service_process.py}
+
+\subsubsection{Parameters}
+
+The \verb|service| generator accepts four parameters (as in Line 1 of Listing \ref{code:service}):
+
+\begin{itemize}
+    \item \verb|identifier|: a unique caller ID.
+    \item \verb|operators|: the \textit{SimPy} resource representing the call operators.
+    \item \verb|env|: the simulation environment object.
+    \item \verb|service_rng|: the PRNG for service processes. It provides the stream of random numbers used to sample service times. 
+\end{itemize}
+
+\subsubsection{Requesting, seizing, and releasing a resource}
+
+The pattern of seizing and releasing a resource in \verb|service_process| in Listing \ref{code:service} is typical of how simple queue and service mechanism is implemented in \textit{SimPy} models.
+
+Line 8 uses Python's \textbf{with} statement to open a context manager, which managers the request queuing, seizing and releasing of a \textit{SimPy} resource. It calls the \textbf{request} method of the \verb|operator| resource and assigns it to a variable called \verb|req|. The subsequent lines are then indented by four spaces, which tells the Python interpreter that all of the code within the \textbf{with} block executes \textbf{while holding on to the seized resource}.
+
+Line 9 \textbf{yields} the request - this simulates the queuing in the process.  The process will pause at Line 9 until an operator resource becomes available (for example, when another call completes). When an operator becomes available Line 12 to 19 are executed. Line 19 simulates the delay to the caller while being triaged by an operator. The \textit{SimPy} simulation engine will pause the process at Line 19. \textit{SimPy} will check if there are any other processes due to complete before this time i.e. new caller arrivals or completion of other calls and resume those first.  Once these are complete the service process for this caller will resume.
+
+\subsection{Starting a service process after an arrival}
+
+Before modifying the arrival process (in Listing \ref{code:arrivals}), it is important to understand the relationship between the arrival and service process in the \textit{SimPy} model. The arrival process spawns multiple instances of the service process - one for each new arrival - and so this can be thought of as \textbf{a one-to-many relationship}. To simulate queuing, the multiple service processes share a common resource (the operators). \textit{SimPy} manages all of these processes for you. It pauses and resumes them depending on if operators are available or if a delay is scheduled.
+
+Listing \ref{code:modarrivals} illustrates a modified arrivals process.  The following modifications have been made:
+
+\begin{enumerate}
+    \item A \textit{SimPy} resource called \verb|operator| is passed to the \verb|arrivals_generator| (Line 6).
+    \item A second pseudo-random number stream called \verb|service_rng| is created (Line 12).
+    \item The arrivals loop is modified to count the number of callers that have arrived (\verb|caller_count|)(Line 15).
+    \item After a call has arrived, a service process is created and scheduled (Line 21).
+    
+\end{enumerate}
+
+% read in the modified arrival process that calls service
+\lstinputlisting[language=python, caption=A modified arrival process and run script used to created service processes, label=code:modarrivals]{code/modified_arrivals.py}
+
+\subsubsection{A second pseudo-random number stream}
+
+For each sampling process in the model, it is good practice to include a unique PRNG. Although it is out of scope for this introductory tutorial, this practice is particularly useful if we later want to implement Common Random Numbers across experiments with the model (as described in Section \ref{subsubsec:crn}).
+
+In Listing \ref{code:modarrivals}, Line 12 creates a second PRNG \verb|service_rng| to use with service processes. This is created \textit{before} the main arrivals loop as we only need to create one PRNG that is shared across all service processes. 
+
+\subsubsection{Counting callers}
+
+We use the built-in Python library \textit{itertools} (imported on Line 2) to count the number of callers. This is implemented inside the \textbf{for} loop on Line 15, with the variable \verb|caller_count| referring to arrival number of the next caller.
+
+\subsubsection{Scheduling a service process for each arrival}
+
+Line 21 schedules a new service process for each arrival. This is done using the \verb|env.process| method, and its argument is a new instance of a \verb|service| process. The call to create the process includes the current unique caller number (\verb|caller_count|), the shared \textit{SimPy} resource for call operators (\verb|operators|), the simulation environment (\verb|env|), and the PRNG for sampling (\verb|service_rng|). The line is indented within the arrivals loop, ensuring that a new service process is created for every arrival.
+
+\subsection{Creating a \textit{SimPy} resource}
+
+In Listing \ref{code:modarrivals}, Lines 25 to 34 represent a modified script to run the model.  In Line 30, we create an instance of \textit{SimPy}'s Resource class called \verb|operators| and set its capacity to 13. This object represents the call operators used across all service processes in the model. In Line 32, we schedule the arrival process and pass the \verb|operators| resource as a parameter.
+
+
+\section{BASIC RESULTS COLLECTION}
+\label{sec:results}
+
+As \textit{SimPy} models are just Python code, there are many ways to implement results collection.  Three possible ways include:
+
+
+\begin{enumerate}
+    \item  \textbf{Code an auditor/observer process}.  This process will periodically observe the state of the system. We can use this to collect information on the current state at time $t$. For example, how many callers are queuing and how many have a call in progress, at certain timepoints throughout the day.  
+    \item \textbf{Store process metrics during a run and perform calculations at the end of a run}. For example, if you want to calculate mean patient waiting time then store each caller waiting time in a list and calculate the mean at the end of the run.
+    \item  \textbf{Monitor resources to calculate time weighted statistics}. Resource utilisation and mean queue length can be tracked as resources are requested and released.  This is more a advanced approach to results collection that requires both knowledge of theory and Object Orientated Programming to implement. The method is beyond the scope of our tutorial, but we provide an example implementation in our online supplementary material.
+    
+\end{enumerate}
+
+In this tutorial, we will calculate the mean waiting time for a single replication of the model using method 2. To do this we will make the following modifications to the code:
+
+\begin{itemize}
+    \item Replace all calls to Python's print function with a custom \verb|trace| function that can be used to toggle the display of model output on or off.
+    \item Create a Python \textbf{dictionary} called \verb|results| that will store all waiting times for service. For simplicity, we will give this global variable scope.
+    \item Modify \verb|service| to calculate caller waiting times and store these in \verb|results|.
+    \item Create a function called \verb|single_run| that will run the model once and return the mean waiting time as a result.
+\end{itemize}
+
+
+
+\subsection{Modifying the service process}
+
+Listing \ref{code:serviceresults} contains the modifications to the \verb|service| generator for recording wait times:
+
+\begin{itemize}
+    \item \textbf{Line 17}: Computes the waiting time (current simulation time minus the arrival time, which we already recorded on Line 10).
+    \item \textbf{Line 18}: Stores this time in \verb|results| (the global dictionary) by appending to a list stored under the key \verb|waiting_times|.
+\end{itemize}
+
+Lines 20 and 25 are also modified to call the function \verb|trace|, defined in Lines 1 to 4.  This simple function prints output messages depending on whether a constant called \verb|TRACE| is set to true or false.
+
+% read in code for modified service that collects results.
+\lstinputlisting[language=python, caption=Setup of results collection mode, label=code:serviceresults]{code/service_results.py}
+
+\subsection{A run function and global variables}
+
+In Listing \ref{code:results}, our original code to create the simulation environment and run the model has been encapsulated into the function \verb|single_run| (Lines 1 to 13). It also has some additional end-of-replication result processing; in this case, finding the mean of all the recorded waiting times.
+
+The advantage of encapsulating a single replication of the model in a function is that we can now easily run multiple independent replications: by creating a loop repeatedly calling \verb|single_run|, and storing the results of each replication as it iterates. In this instance we only run a single replication of the model. We do so by modifying the run script (Lines 17 to 26).  We provide example code to run and analyse multiple replications in our supplementary material (see \verb|07_experiments.ipynb|).
+
+We also create the \verb|results| dictionary on Lines 17 and 18, with the key \verb|waiting_times| pointing to an empty Python List.  This is the results global variable that is referenced in \verb|service|.
+
+% read in code to allow basic results collection.
+\lstinputlisting[language=python, caption=Modifications to collect basic waiting time results, label=code:results]{code/results.py}
+
+\section{DISCUSSION AND NEXT STEPS}
+\label{sec:discussion}
+
+This paper provides an introductory tutorial for building healthcare DES models in Python and \textit{SimPy}. It aims to provide modellers familiar with DES and coding the basic materials to begin building their own \textit{SimPy} FOSS models. 
+
+The model introduced is only elementary and does not fully reflect the complexities seen in real health systems, or the requirements of rigorous reproducible simulation research. For some aspects of DES modelling, the extensions are trivial and our materials can be adapted. We provide several simple, intermediate and advanced extensions below.
+
+\subsection{Simple Extensions}
+
+\subsubsection{Multiple arrival processes}
+
+In some healthcare problems, there will be multiple patient types with differing arrival rates. For example, \shortciteN{griffithsccu} develop a DES model of a Critical Care Unit.  In their model, patients arrive from six sources at differing rates: emergency department, x-ray, emergency surgery, inter-hospital transfers, and elective operations. To model this in \textit{SimPy}, we can create six arrival processes each with their own PRNG and sampling distribution.  We would also modify \verb|single_run| to schedule these six generators to run in the \textit{SimPy} DES engine.
+
+
+\subsubsection{Service processes dependent on patient class}
+
+Some health systems may share a common patient arrival process, but then have multiple patient classes, each with different treatment processes. A common way to model this problem is to include probabilities that each type of arrival is a different class of patient that follows a specific process.  For example, in an urgent care centre, there might be a 10\% chance a new patient has trauma injuries and a 90\% chance that a patient has a medical emergency.  The processes that each class of urgent care patient follows will be very different (for example, trauma patients may need urgent stabilisation/resuscitation and medical patients may just need to follow a less urgent triage and medical consultation process).  Our example can be extended by creating two service generator functions encapsulating each process. We would then modify the arrivals generator to (a) sample the class of patient arriving and (b) include conditional logic (a Python if statement) to schedule the appropriate service process.  We provide an example of an extended version of the call centre model in our online supplementary material (see the \verb|08_full_model.ipynb| notebook).
+
+\subsubsection{Introducing a warm-up period}
+
+To remove initialisation bias from the output of a non-terminating system, a model should include a warm-up period.  At the end of a warm-up period, all result collection processes should be reset.  Implementing a warm-up in \textit{SimPy} requires a modeller to i.) partition the run length parameter of the model into durations for warm-up and data collection; and ii.) create a new \textit{SimPy} process that is scheduled to execute when the simulation time equals the warm-up time.  We provide an example of implementing a warm-up period in our online supplementary material (see the \verb|08_full_model.ipynb| notebook).
+
+\subsection{Intermediate Extensions}
+
+\subsubsection{Separating parameters from model logic}
+
+In our simple tutorial, we passed parameters and simulation objects (e.g. number of operators, simulation environment, PRNGs) as individual arguments to the functions and generators we code. We also limited the number of parameters we needed to pass by hard coding parameters for distributions (e.g. the parameters for the triangular distribution in Listing \ref{code:service}). In a real simulation study, there may be tens or hundreds of parameters (including data files) that a modeller wishes to vary for experimentation, sensitivity analysis or optimisation. It is impractical to pass these individually to each function and generator used in the modelling. 
+
+Several options in Python exist for separating parameters from model logic including dictionaries, dataclasses and classes.  Our recommendation is to create an \verb|Experiment| class that we pass to the \verb|single_run| (or multiple replications) function. This class should contain default values and a way to quickly set all of the parameters. By using a class, the number of parameters passed to each function within a model is minimal (as low as one: the \verb|Experiment| object). When using this approach, we would also recommend eliminating all global variables (which have only been included in our tutorial for simplicity). \citeN{monks2023improving} provide an advanced tutorial describing this object-oriented approach using classes, and apply it to both \textit{SimPy} and \textit{Ciw} models.  We provide an applied example using an \verb|Experiment| class in our supplementary online material (see the \verb|07_experiments.ipynb| notebook).
+
+
+\subsubsection{Time dependent arrival rates}
+
+It is common to encounter time dependency in the arrival of patients to healthcare systems; for example, following a Non-Stationary Poisson Process (NSPP).  Unlike COTS packages, tools like \textit{SimPy} do not include built-in algorithms for sampling from a NSPP such as thinning or from a piece-wise linear function.  A modeller is therefore required to implement these algorithms themselves. To help, we direct users to applied example 2 in \citeN{starstowardspaper}, which includes an implementation of NSPP via thinning.
+
+\subsection{Advanced Extensions}
+
+\subsubsection{Common Random Numbers}
+\label{subsubsec:crn}
+
+Common Random Numbers (CRN) - also known as streaming - is a variance reduction approach: a method to reduce the variation (sampling noise) between experiments conducted with a simulation model. We note that CRN are not essential for simulation research but, on a practical level, CRN reduce both the number of replications that need to be run to compare experiments, and help support repeatable results for each replication of a model.  In this tutorial, we have taken some steps to implement CRN by introducing a PRNG for each sampling process included (arrivals and service). To fully implement CRN, a method is needed to create non-overlapping streams of PRNs for each replication.  In Python, \textit{NumPy's} PRNG tools can be used to spawn non-overlapping streams for each replication with only a small amount of code.  For an example implementation of this approach, we again refer readers to Applied Example 2 in \citeN{starstowardspaper}. We also provide an applied example using CRN in our supplementary online material (see the \verb|07_experiments.ipynb| notebook).
+
+\subsubsection{Reproducible pipelines and experiments}
+
+Reproducible analytical pipelines (RAPs), in the context of model experimentation, are automated processes for the parameterisation, execution, output analysis, and reporting of simulation models. For example, imagine a journal article that reports the results of two experiments with our urgent care call centre. Each experiment produces a formatted table of performance measures. A RAP here  would reproduce the exact figures reported in the table (including potentially LaTeX formatting). The RAP would parameterise the model, run it in an identical software environment, use the same random number streams, analyse the results, and report tables identical to those found in the journal article. Code-based models such as those built in \textit{SimPy} lend themselves to a RAP approach (which is good science), but require more time to develop as code will need to be structured appropriately.
+
+\section{SUMMARY}
+
+Our aim in this tutorial is to support modellers in their journey to build and share FOSS DES models.  When compared to DES models built using COTS packages, FOSS models are still relatively rare. We hope this tutorial will be part of the solution to increase the FOSS DES prevalence in the literature. This is because we feel that - in order for the modelling and simulation community to learn and adopt the skills needed to build FOSS models - we need to build a critical mass of open models. As discussed, the tutorial we provide is only introductory, but it is relatively simple to extend our work to health systems with more detailed processes and patient pathways.  We hope that the intermediate and advanced next steps we outline also open readers to new ideas, such as RAPs, and an understanding of how their DES models work and could be organised.
+
+
+\section*{ACKNOWLEDGMENTS}
+TM is supported by the NIHR Applied Research Collaboration South West Peninsula. The views expressed in this publication are those of the author(s) and not necessarily those of the NIHR or the Department of Health and Social Care. 
+
+\section*{FUNDING}
+This work was supported by the Medical Research Council [MR/Z503915/1]. 
+
+% Please don't exchange the bibliographystyle style
+\bibliographystyle{sw}
+% AUTHOR: Include your bib file here
+\bibliography{demobib}
+
+\section*{AUTHOR BIOGRAPHIES}
+
+\noindent {\bf \MakeUppercase{Thomas Monks}} is an Associate Professor of Health Data Science at University of Exeter Medical School. His research interests include open science for computer simulation, urgent and emergency care, and real-time discrete-event simulation. His email address is \email{ t.m.w.monks@exeter.ac.uk}\orcidlink{0000-0003-2631-4481}\\
+
+\noindent {\bf \MakeUppercase{Alison Harper}} is a lecturer in operations and analytics at the Centre for Simulation, Analytics and Modelling, University of Exeter. Her research interests include applied health and social care modelling and simulation, real-time simulation, and reusable modelling in healthcare. Her email address is  \email{a.l.harper@exeter.ac.uk}\orcidlink{0000-0001-5274-5037}\\
+
+\noindent {\bf \MakeUppercase{Amy Heather}} is a Postdoctoral Research Associate the Peninsula Collaboration for Health Operational Research and Data Science (PenCHORD) at the University of Exeter. Her research interests include health data science and open science. Her email address is  \email{a.heather2@exeter.ac.uk}\orcidlink{0000-0002-6596-3479}\\
+
+\noindent {\bf \MakeUppercase{Andrew Mayne}} is Chief Scientist for Data, Operational Research and Artificial Intelligence at Somerset NHS Foundation Trust. He is also Chief Technology Officer for the South West Secure Data Environment.  His interests are  in admission prediction and simulation modelling of patient pathways in the NHS. His email address is  \email{andrew.mayne@somersetft.nhs.uk}\orcidlink{0000-0003-1263-2286}\\
+
+\noindent {\bf \MakeUppercase{Navonil Mustafee}} is Professor of Analytics and Operations Management at the University of Exeter Business School, UK. His research focuses on modelling and simulation methodologies, including hybrid modelling and real-time simulation, and their application in healthcare, supply chain management, circular economy and climate change adaptation and resilience. He is a Joint Editor-in-Chief of the Journal of Simulation (UK OR Society journal). His email address is \email{n.mustafee@exeter.ac.uk}\orcidlink{0000-0002-2204-8924} 
+
+\end{document}
+
